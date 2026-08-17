@@ -1,6 +1,11 @@
 export default function MapEmbed() {
-  const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'YOUR_GOOGLE_MAPS_API_KEY'
-  const src = `https://www.google.com/maps/embed/v1/place?key=${key}&q=New+Delhi,India`
+  const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+  // If an API key is available use the Maps Embed v1 endpoint, otherwise fall back
+  // to a simple embedded map URL that does not require an API key.
+  const src = key
+    ? `https://www.google.com/maps/embed/v1/place?key=${key}&q=New+Delhi,India`
+    : `https://www.google.com/maps?q=New+Delhi,India&output=embed`
+
   return (
     <div className="w-full h-72 border rounded overflow-hidden">
       <iframe
