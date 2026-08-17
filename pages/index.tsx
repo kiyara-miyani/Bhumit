@@ -4,11 +4,13 @@ import ContactForm from '../components/ContactForm'
 import MapEmbed from '../components/MapEmbed'
 
 export default function Home() {
+  const stripeAvailable = !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+
   return (
     <>
       <Head>
         <title>izigo intercity — thinkless go more</title>
-        <meta name="description" content="izigo intercity — thinkless go more" />
+        <meta name="description" content="izigo intercity — thinkless go more | Intercity travel made effortless" />
       </Head>
 
       <header className="bg-white shadow">
@@ -31,7 +33,7 @@ export default function Home() {
         <section className="bg-gradient-to-r from-indigo-50 to-white">
           <div className="container mx-auto px-6 py-20 text-center">
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4">thinkless. go more.</h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">Intercity travel made effortless — book seats, manage travel and go more with izigo intercity.</p>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">Travel between cities with comfort and simplicity. Book fast, pay securely, and track routes in real-time with izigo intercity.</p>
             <div className="flex justify-center gap-4">
               <a href="#book" className="bg-indigo-600 text-white px-6 py-3 rounded shadow">Get started</a>
               <a href="#pricing" className="border border-indigo-600 text-indigo-600 px-6 py-3 rounded">See pricing</a>
@@ -45,15 +47,15 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-6 border rounded">
               <h3 className="font-semibold mb-2">Easy Booking</h3>
-              <p className="text-sm text-gray-600">Fast seat selection and instant confirmation.</p>
+              <p className="text-sm text-gray-600">Choose seats, select dates, and confirm instantly with our streamlined booking flow.</p>
             </div>
             <div className="p-6 border rounded">
               <h3 className="font-semibold mb-2">Secure Payments</h3>
-              <p className="text-sm text-gray-600">Stripe-powered checkout for safe transactions.</p>
+              <p className="text-sm text-gray-600">Pay safely via Stripe — cards, wallets, and regional payment methods supported.</p>
             </div>
             <div className="p-6 border rounded">
               <h3 className="font-semibold mb-2">Real-time Routes</h3>
-              <p className="text-sm text-gray-600">Integrated Google Maps for route previews.</p>
+              <p className="text-sm text-gray-600">Preview routes on Google Maps and track live updates during travel.</p>
             </div>
           </div>
         </section>
@@ -70,10 +72,14 @@ export default function Home() {
                   <li>Standard seats</li>
                   <li>Free cancellation (24h)</li>
                 </ul>
-                <form action="/api/checkout_sessions" method="POST">
-                  <input type="hidden" name="priceId" value="price_basic_placeholder" />
-                  <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded">Buy Basic</button>
-                </form>
+                {stripeAvailable ? (
+                  <form action="/api/checkout_sessions" method="POST">
+                    <input type="hidden" name="priceId" value="price_basic_placeholder" />
+                    <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded">Buy Basic</button>
+                  </form>
+                ) : (
+                  <button className="w-full bg-gray-300 text-gray-700 py-2 rounded" disabled>Payments coming soon</button>
+                )}
               </div>
 
               <div className="p-6 bg-white rounded shadow">
@@ -83,10 +89,14 @@ export default function Home() {
                   <li>Recliner seats</li>
                   <li>Priority boarding</li>
                 </ul>
-                <form action="/api/checkout_sessions" method="POST">
-                  <input type="hidden" name="priceId" value="price_comfort_placeholder" />
-                  <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded">Buy Comfort</button>
-                </form>
+                {stripeAvailable ? (
+                  <form action="/api/checkout_sessions" method="POST">
+                    <input type="hidden" name="priceId" value="price_comfort_placeholder" />
+                    <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded">Buy Comfort</button>
+                  </form>
+                ) : (
+                  <button className="w-full bg-gray-300 text-gray-700 py-2 rounded" disabled>Payments coming soon</button>
+                )}
               </div>
 
               <div className="p-6 bg-white rounded shadow">
@@ -96,10 +106,14 @@ export default function Home() {
                   <li>Premium seats</li>
                   <li>Meals included</li>
                 </ul>
-                <form action="/api/checkout_sessions" method="POST">
-                  <input type="hidden" name="priceId" value="price_premium_placeholder" />
-                  <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded">Buy Premium</button>
-                </form>
+                {stripeAvailable ? (
+                  <form action="/api/checkout_sessions" method="POST">
+                    <input type="hidden" name="priceId" value="price_premium_placeholder" />
+                    <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded">Buy Premium</button>
+                  </form>
+                ) : (
+                  <button className="w-full bg-gray-300 text-gray-700 py-2 rounded" disabled>Payments coming soon</button>
+                )}
               </div>
             </div>
           </div>
